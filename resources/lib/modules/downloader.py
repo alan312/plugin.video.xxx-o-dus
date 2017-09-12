@@ -3,7 +3,6 @@ import urllib
 import time
 import adultresolver
 adultresolver = adultresolver.streamer()
-import urlresolver
 from urllib import FancyURLopener
 import sys
 import kodi
@@ -13,6 +12,9 @@ import player
 import client
 import sqlite3
 buildDirectory = utils.buildDir
+import urlresolver, xbmcvfs
+xxx_plugins_path = 'special://home/addons/script.module.urlresolver.xxx/resources/plugins/'
+if xbmcvfs.exists(xxx_plugins_path): urlresolver.add_plugin_dirs(xbmc.translatePath(xxx_plugins_path))
 
 download_icon = xbmc.translatePath(os.path.join('special://home/addons/script.xxxodus.artwork/resources/art/main', 'downloads.png'))
 
@@ -144,10 +146,10 @@ def find_link(url, name, iconimage, downloadableLink=False):
     else:
         u = None
         log_utils.log('Sending %s to XXX Resolver' % (url), log_utils.LOGNOTICE)
-        if urlresolver.HostedMediaFile(url, include_xxx=True).valid_url(): 
+        if urlresolver.HostedMediaFile(url).valid_url(): 
             log_utils.log('%s is a valid SMU resolvable URL. Attempting to resolve.' % (url), log_utils.LOGNOTICE)
             try:
-                u = urlresolver.HostedMediaFile(url, include_xxx=True).resolve()
+                u = urlresolver.HostedMediaFile(url).resolve()
             except Exception as e:
                 log_utils.log('Error getting valid link from SMU :: %s :: %s' % (url, str(e)), log_utils.LOGERROR)
                 kodi.idle()
