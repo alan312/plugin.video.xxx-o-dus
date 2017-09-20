@@ -167,6 +167,9 @@ def delTerm(url):
         if 'search_term=' in url: 
             url = url.split('search_term=')[1]
             refresh = True
+        if '|' in url: 
+            url = url.split('|')[0]
+            refresh = True
         conn = sqlite3.connect(searchdb)
         c = conn.cursor()
         c.execute("DELETE FROM terms WHERE term = '%s'" % url)
